@@ -1,0 +1,90 @@
+@extends('layouts.admin')
+@section('content')
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <h1 class="m-0">Добавление товара</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+
+                <form action="{{ route('admin.order.store') }}" method="post" enctype="multipart/form-data"
+                      class="needs-validation" novalidate="">
+                    @csrf
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <label for="name_order" class="form-label">Наименование</label>
+                            <input value="{{ old('name_order') }}" type="text" class="form-control" name="name_order"
+                                   id="name_order" placeholder="Введите наименование товара" required="">
+                            @error('name_order')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <label for="description" class="form-label">Описание товара</label>
+                            <textarea class="form-control" name="description" id="description"
+                                      placeholder="Описание товара" required="">{{ old('description') }}</textarea>
+                            @error('description')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="form-group col-6">
+                            <label for="exampleInputFile">Добавить изображение</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="image" id="image">
+                                    <label class="custom-file-label">Выберите изображение</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Загрузить</span>
+                                </div>
+                            </div>
+                            @error('image')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="form-group col-6">
+                        <label for="category">Выберите категорию</label>
+                        <select class="form-control" id="category" name="category_id">
+                            @foreach($categories as $category)
+                                <option {{ old('category_id') == $category->id ? ' selected' : ''}}
+                                        value="{{ $category->id }}">{{ $category->category }}</option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <label for="price" class="form-label">Цена товара</label>
+                            <input value="{{ old('price') }}" class="form-control" name="price" id="price"
+                                   placeholder="Цена товара" required="">
+                            @error('price')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <button class="btn btn-primary" type="submit">Добавить</button>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+    </div>
+@endsection
