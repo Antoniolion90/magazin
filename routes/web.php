@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'], function (){
+Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'admin']], function (){
     Route::get('/', 'IndexController')->name('admin.index');
     Route::group(['namespace' => 'Order', 'prefix' => 'orders'], function (){
         Route::get('/', 'IndexController')->name('admin.order.index');
@@ -30,6 +30,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'],
         Route::delete('/{order}', 'DeleteController')->name('admin.order.delete');
     });
 
+    Route::group(['namespace' => 'Product', 'prefix' => 'products'], function (){
+        Route::get('/', 'IndexController')->name('admin.product.index');
+        Route::get('/create', 'CreateController')->name('admin.product.create');
+        Route::post('/', 'StoreController')->name('admin.product.store');
+        Route::get('/{product}', 'ShowController')->name('admin.product.show');
+        Route::get('/{product}/edit', 'EditController')->name('admin.product.edit');
+        Route::patch('/{product}', 'UpdateController')->name('admin.product.update');
+        Route::delete('/{product}', 'DeleteController')->name('admin.product.delete');
+    });
+
     Route::group(['namespace' => 'Category', 'prefix' => 'categories'], function (){
         Route::get('/', 'IndexController')->name('admin.category.index');
         Route::get('/create', 'CreateController')->name('admin.category.create');
@@ -38,6 +48,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'],
         Route::get('/{category}/edit', 'EditController')->name('admin.category.edit');
         Route::patch('/{category}', 'UpdateController')->name('admin.category.update');
         Route::delete('/{category}', 'DeleteController')->name('admin.category.delete');
+    });
+
+    Route::group(['namespace' => 'Tag', 'prefix' => 'tags'], function (){
+        Route::get('/', 'IndexController')->name('admin.tag.index');
+        Route::get('/create', 'CreateController')->name('admin.tag.create');
+        Route::post('/', 'StoreController')->name('admin.tag.store');
+        Route::get('/{tag}', 'ShowController')->name('admin.tag.show');
+        Route::get('/{tag}/edit', 'EditController')->name('admin.tag.edit');
+        Route::patch('/{tag}', 'UpdateController')->name('admin.tag.update');
+        Route::delete('/{tag}', 'DeleteController')->name('admin.tag.delete');
     });
 
     Route::group(['namespace' => 'User', 'prefix' => 'users'], function (){
@@ -54,3 +74,5 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'],
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();

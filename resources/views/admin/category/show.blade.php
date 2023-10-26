@@ -7,7 +7,7 @@
 
                 <div class="row mb-2">
                     <div class="col-sm-6 d-flex align-items-center">
-                        <h1 class="m-0 mr-3">{{ $category->category }}</h1>
+                        <h1 class="m-0 mr-3">{{ $category->title }}</h1>
                         <a href="{{ route('admin.category.edit', $category->id) }}" class="text-success m-3"><i class="nav-icon fas fa-pencil-alt"></i></a>
                         <form action="{{ route('admin.category.delete', $category->id) }}"
                               method="POST">
@@ -32,7 +32,7 @@
                                         </tr>
                                         <tr>
                                             <td>Наименование</td>
-                                            <td>{{ $category->category }}</td>
+                                            <td>{{ $category->title }}</td>
                                         </tr>
                                         <tr>
                                             <td>Описание категории</td>

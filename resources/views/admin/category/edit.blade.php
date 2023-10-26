@@ -16,9 +16,9 @@
                     @method('PATCH')
                     <div class="row mb-2">
                         <div class="col-6">
-                            <label for="category" class="form-label">Наименование</label>
-                            <input value="{{ $category->category }}" type="text" class="form-control" name="category" id="category" placeholder="Введите наименование категории" required="">
-                            @error('category')
+                            <label for="title" class="form-label">Наименование</label>
+                            <input value="{{ $category->title }}" type="text" class="form-control" name="title" id="title" placeholder="Введите наименование категории" required="">
+                            @error('title')
                             <p class="text-danger">Это поле необходимо для заполнения</p>
                             @enderror
                         </div>

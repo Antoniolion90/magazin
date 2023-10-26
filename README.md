@@ -7,6 +7,14 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+
 1. Установить node js.
-2. В .env файл записать данные баз данных
-3. 
+2. Сгенерировать ключ: php artisan key:generate 
+3. В .env файл записать данные баз данных 
+4. Сделать миграцию: php artisan migrate 
+5. Установить: composer require laravel/ui
+   4.1. php artisan ui vue --auth
+   4.2. php artisan ui bootstrap --auth
+   4.3. php artisan migrate
+   4.4. npm install
+   4.5. npm run build

@@ -26,7 +26,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.product.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-pizza-slice"></i>
                         <p>Продукты</p>
                     </a>
@@ -38,7 +38,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="№" class="nav-link">
+                    <a href="{{ route('admin.tag.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>Теги</p>
                     </a>

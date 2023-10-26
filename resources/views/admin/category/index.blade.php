@@ -33,7 +33,7 @@
                                     @foreach($categories as $category)
                                         <tr>
                                             <td>{{ $category->id }}</td>
-                                            <td>{{ $category->category }}</td>
+                                            <td>{{ $category->title }}</td>
                                             <td class="text-wrap">{{ $category->description }}</td>
                                             <td><a href="{{ route('admin.category.show', $category->id) }}"><i
                                                         class="nav-icon fas fa-eye"></i></a></td>
