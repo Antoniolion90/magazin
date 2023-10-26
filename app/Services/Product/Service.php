@@ -24,19 +24,19 @@ class Service
 
     }
 
-    public function update($order, $data)
+    public function update($product, $data)
     {
         try{
             DB::beginTransaction();
             if (isset($data['image'])) {
                 $data['image'] = Storage::disk('public')->put('/images', $data['image']);
             }
-            $order->update($data);
+            $product->update($data);
             DB::commit();
         } catch (Exception $exception){
             DB::rollBack();
             abort(500);
         }
-        return $order;
+        return $product;
     }
 }

@@ -23,6 +23,8 @@ class SroreRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'required|file',
             'price' => 'required|integer',
             'category_id' => 'required|integer|exists:categories,id',
         ];
@@ -33,6 +35,10 @@ class SroreRequest extends FormRequest
         return [
             'title.required' => 'Это поле необходимо для заполнения',
             'title.string' => 'Данные должны соответсвовать строчному типу',
+            'description.required' => 'Это поле необходимо для заполнения',
+            'description.string' => 'Данные должны соответсвовать строчному типу',
+            'image.required' => 'Это поле необходимо для заполнения',
+            'image.file' => 'Необходимо выбрать файл',
             'price.required' => 'Это поле необходимо для заполнения',
             'price.integer' => 'Цена должны быть числом',
             'category_id.required' => 'Это поле необходимо для заполнения',

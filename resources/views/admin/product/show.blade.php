@@ -8,8 +8,8 @@
                 <div class="row mb-2">
                     <div class="col-sm-6 d-flex align-items-center">
                         <h1 class="m-0 mr-3">{{ $product->name_order }}</h1>
-                        <a href="{{ route('admin.order.edit', $product->id) }}" class="text-success m-3"><i class="nav-icon fas fa-pencil-alt"></i></a>
-                        <form action="{{ route('admin.order.delete', $product->id) }}"
+                        <a href="{{ route('admin.product.edit', $product->id) }}" class="text-success m-3"><i class="nav-icon fas fa-pencil-alt"></i></a>
+                        <form action="{{ route('admin.product.delete', $product->id) }}"
                               method="POST">
                             @csrf
                             @method('DELETE')
@@ -38,7 +38,24 @@
                                             <td>Описание товара</td>
                                             <td class="text-wrap">{{ $product->description }}</td>
                                         </tr>
-
+                                        <tr>
+                                            <td>Стоимость</td>
+                                            <td class="text-wrap">{{ $product->price }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Категория</td>
+                                            @foreach($categories as $category)
+                                                @if($category->id == $product->category_id)
+                                                    <td class="text-wrap">{{ $category->title }}</td>
+                                                @endif
+                                            @endforeach
+                                        </tr>
+                                        <tr>
+                                            <td>Изображения</td>
+                                            <td>
+                                                <img src="{{ url('storage/' . $product->image) }}" alt="" class="w-25 mb-2">
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

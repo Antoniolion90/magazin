@@ -38,6 +38,14 @@
                                             <td>Почта</td>
                                             <td>{{ $user->email }}</td>
                                         </tr>
+                                        <tr>
+                                            <td>Роль</td>
+                                            @foreach($roles as $id => $role)
+                                                @if($id == $user->role)
+                                                    <td>{{ $role }}</td>
+                                                @endif
+                                            @endforeach
+                                        </tr>
 
                                     </tbody>
                                 </table>

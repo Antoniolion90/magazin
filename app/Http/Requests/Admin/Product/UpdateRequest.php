@@ -22,22 +22,28 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'products' => 'required|string',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'nullable|file',
             'price' => 'required|integer',
-            'user_id' => 'required|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 
     public function messages()
     {
         return [
-            'products.required' => 'Это поле необходимо для заполнения',
-            'products.string' => 'Данные должны соответсвовать строчному типу',
+            'title.required' => 'Это поле необходимо для заполнения',
+            'title.string' => 'Данные должны соответсвовать строчному типу',
+            'description.required' => 'Это поле необходимо для заполнения',
+            'description.string' => 'Данные должны соответсвовать строчному типу',
+            'image.required' => 'Это поле необходимо для заполнения',
+            'image.file' => 'Необходимо выбрать файл',
             'price.required' => 'Это поле необходимо для заполнения',
             'price.integer' => 'Цена должны быть числом',
-            'user_id.required' => 'Это поле необходимо для заполнения',
-            'user_id.integer' => 'Id категории должны быть числом',
-            'user_id.exists' => 'Id категории должен быть в базе данных',
+            'category_id.required' => 'Это поле необходимо для заполнения',
+            'category_id.integer' => 'Id категории должны быть числом',
+            'category_id.exists' => 'Id категории должен быть в базе данных',
         ];
 
     }

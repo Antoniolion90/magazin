@@ -9,12 +9,14 @@
 
 
 1. Установить node js.
-2. Сгенерировать ключ: php artisan key:generate 
-3. В .env файл записать данные баз данных 
-4. Сделать миграцию: php artisan migrate 
-5. Установить: composer require laravel/ui
-   4.1. php artisan ui vue --auth
-   4.2. php artisan ui bootstrap --auth
-   4.3. php artisan migrate
-   4.4. npm install
-   4.5. npm run build
+2. Сгенерировать ключ: `php artisan key:generate`
+3. В .env файл записать данные баз данных
+4. Сделать миграцию: `php artisan migrate`
+5. Установить: `composer require laravel/ui`
+6. `php artisan ui vue --auth`
+7. `php artisan ui bootstrap --auth`
+8. `php artisan migrate`
+9. `npm install`
+10. Изменить файл vite.config.js
+11. `npm run build`
+12. Для отображения картинок: `php artisan storage:link`
