@@ -51,6 +51,21 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <label>Выберите теги</label>
+
+                            <select name="tags[]" class="tags" multiple="multiple" data-placeholder="Выберите тег" style="width:100%">
+                                @foreach($tags as $tag)
+                                    <option {{ is_array( old('tags')) && in_array($tag->id, old('tags')) ? ' selected' : '' }} value="{{ $tag->id }}">{{ $tag->title }}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                        @error('tags')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <div class="row">
                     <div class="form-group col-6">
                         <label for="category">Выберите категорию</label>
@@ -72,6 +87,17 @@
                             <input value="{{ old('price') }}" class="form-control" name="price" id="price"
                                    placeholder="Цена товара" required="">
                             @error('price')
+                            <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <label for="quantity" class="form-label">Количество на складе</label>
+                            <input value="{{ old('quantity') }}" class="form-control" name="quantity" id="quantity"
+                                   placeholder="Количество товара" required="">
+                            @error('quantity')
                             <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>

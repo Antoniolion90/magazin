@@ -27,6 +27,7 @@
                                         <th>Наименование</th>
                                         <th>Описание товара</th>
                                         <th>Стоимость</th>
+                                        <th>Количество</th>
                                         <th colspan="3">Действия</th>
                                     </tr>
                                     </thead>
@@ -37,6 +38,7 @@
                                             <td>{{ $product->title }}</td>
                                             <td class="text-wrap">{{ $product->description }}</td>
                                             <td>{{ $product->price }}</td>
+                                            <td>{{ $product->quantity }}</td>
                                             <td><a href="{{ route('admin.product.show', $product->id) }}"><i
                                                         class="nav-icon fas fa-eye"></i></a></td>
                                             <td><a href="{{ route('admin.product.edit', $product->id) }}"

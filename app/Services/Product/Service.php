@@ -3,6 +3,7 @@
 namespace App\Services\Product;
 
 use App\Models\Product;
+use App\Models\ProductTag;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -14,13 +15,17 @@ class Service
         try{
             DB::beginTransaction();
             $data['image'] = Storage::disk('public')->put('/images', $data['image']);
-            Product::firstOrCreate($data);
+            $tagsIds = $data['tags'];
+            unset($data['tags']);
+
+            $product = Product::firstOrCreate($data);
+
+            $product->tags()->attach($tagsIds);
             DB::commit();
         } catch (Exception $exception){
             DB::rollBack();
             abort(500);
         }
-
 
     }
 
@@ -31,7 +36,11 @@ class Service
             if (isset($data['image'])) {
                 $data['image'] = Storage::disk('public')->put('/images', $data['image']);
             }
+            $tagsIds = $data['tags'];
+            unset($data['tags']);
+
             $product->update($data);
+            $product->tags()->sync($tagsIds);
             DB::commit();
         } catch (Exception $exception){
             DB::rollBack();

@@ -26,7 +26,10 @@ class SroreRequest extends FormRequest
             'description' => 'required|string',
             'image' => 'required|file',
             'price' => 'required|integer',
+            'quantity' => 'required|integer',
             'category_id' => 'required|integer|exists:categories,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'nullable|integer|exists:tags,id',
         ];
     }
 
