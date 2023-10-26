@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('image')->nullable();
 
             $table->unsignedInteger('category_id')->nullable();
-            $table->unsignedInteger('user_id')->nullable();
 
             $table->boolean('is_show')->default(1);
 

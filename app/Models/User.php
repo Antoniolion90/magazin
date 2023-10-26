@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use function Laravel\Prompts\search;
+use function PHPUnit\Framework\returnSelf;
 
 class User extends Authenticatable
 {
@@ -22,6 +24,10 @@ class User extends Authenticatable
             self::ROLE_USER => 'Покупатель',
             self::ROLE_ADMIN => 'Админ',
         ];
+    }
+
+    public function getRoleTitleAttribute() {
+        return self::getRoles()[$this->role];
     }
 
     /**

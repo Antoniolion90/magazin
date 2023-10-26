@@ -36,11 +36,7 @@
                                             <td>{{ $user->id }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            @foreach($roles as $id => $role)
-                                                @if($id == $user->role)
-                                                    <td>{{ $role }}</td>
-                                                @endif
-                                            @endforeach
+                                            <td>{{ $user->roleTitle }}</td>
                                             <td><a href="{{ route('admin.user.show', $user->id) }}"><i
                                                         class="nav-icon fas fa-eye"></i></a></td>
                                             <td><a href="{{ route('admin.user.edit', $user->id) }}"

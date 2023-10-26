@@ -40,11 +40,7 @@
                                         </tr>
                                         <tr>
                                             <td>Роль</td>
-                                            @foreach($roles as $id => $role)
-                                                @if($id == $user->role)
-                                                    <td>{{ $role }}</td>
-                                                @endif
-                                            @endforeach
+                                            <td>{{ $user->roleTitle }}</td>
                                         </tr>
 
                                     </tbody>
