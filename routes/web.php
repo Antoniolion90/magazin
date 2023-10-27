@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'admin']], function (){
     Route::get('/', 'IndexController')->name('admin.index');
-    Route::group(['namespace' => 'Order', 'prefix' => 'orders'], function (){
+    Route::group(['namespace' => 'Product', 'prefix' => 'orders'], function (){
         Route::get('/', 'IndexController')->name('admin.order.index');
     });
 
@@ -72,8 +72,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 
 
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', \App\Http\Controllers\HomeController::class)->name('main.index');
 
 Auth::routes();

@@ -1,10 +1,15 @@
 import './bootstrap';
 import { createApp } from 'vue';
+import Index from "@/components/Index.vue";
+import router from "@/router.js";
 
-const app = createApp({});
+const app = createApp({
+    components:{
+        'index': Index,
+    }
+});
 
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
-
+app.use(router)
+app.config.globalProperties.axios = axios
 
 app.mount('#app');
