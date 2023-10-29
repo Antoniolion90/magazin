@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Product;
+namespace App\Http\Resources\Order;
 
-use App\Http\Resources\Category\CategoryResource;
-use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource
+class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,7 +22,6 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'quantity' => $this->quantity,
             'image_url' => $this->imageUrl,
-            'category' => new CategoryResource($this->category),
             'is_show' => $this->is_show,
         ];
     }

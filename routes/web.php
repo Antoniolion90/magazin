@@ -20,7 +20,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 
         Route::get('/', 'IndexController')->name('admin.order.index');
     });
 
-    Route::group(['namespace' => 'Order', 'prefix' => 'orders'], function (){
+    Route::group(['namespace' => 'product', 'prefix' => 'orders'], function (){
         Route::get('/', 'IndexController')->name('admin.order.index');
         Route::get('/create', 'CreateController')->name('admin.order.create');
         Route::post('/', 'StoreController')->name('admin.order.store');
@@ -73,5 +73,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 
 });
 
 Route::get('/', \App\Http\Controllers\HomeController::class)->name('main.index');
+Route::get('/products/{products}', \App\Http\Controllers\ShowController::class)->name('show.index');
 
 Auth::routes();

@@ -8,6 +8,8 @@
     <title>Товары</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         @media (min-width: 768px) {
 
@@ -25,6 +27,7 @@
             .bd-mode-toggle .dropdown-menu .active .bi {
                 display: block !important;
             }
+        }
     </style>
 
 </head>

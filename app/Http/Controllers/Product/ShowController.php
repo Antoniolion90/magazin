@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Order;
+namespace App\Http\Controllers\Product;
 
-use App\Models\Order;
+use App\Http\Controllers\Controller;
+
+use App\Http\Resources\Product\OrderResource;
+use App\Models\Product;
 
 
-class ShowController extends BaseController
+class ShowController extends Controller
 {
-    public function __invoke(Order $order)
+    public function __invoke(Product $product)
     {
-        return view('admin.order.show', compact('order'));
+        return new OrderResource($product);
     }
 }
