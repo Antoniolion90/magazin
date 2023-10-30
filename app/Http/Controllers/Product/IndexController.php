@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Product\OrderResource;
+use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 
 
@@ -13,6 +13,6 @@ class IndexController extends Controller
     {
         $products = Product::all();
 
-        return OrderResource::collection($products);
+        return ProductResource::collection($products);
     }
 }
