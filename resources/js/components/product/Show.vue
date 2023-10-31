@@ -16,8 +16,8 @@
                 <input type="number" class="qtyValue" value="1"/>
                 <span class="plus">+</span>
             </div>
-            <div class="product-content">
-                <a class="add-to-cart" @click.prevent="addToCart(product.id)" href="#">
+            <div class="product">
+                <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
                     <i class="fas fa-shopping-cart"></i><span>в корзину</span>
                 </a>
             </div>
@@ -44,17 +44,21 @@ export default {
 
     mounted() {
         this.getProduct();
+        $(document).trigger('change')
     },
 
     methods: {
-        addToCart(id) {
+        addToCart(product) {
             let cart = localStorage.getItem('cart')
 
             let qty = $('input.qtyValue').val() ? $('input.qtyValue').val() : 1
             $('input.qtyValue').val(1)
             let newProduct = [
                 {
-                    'id': id,
+                    'id': product.id,
+                    'image_url': product.image_url,
+                    'title': product.title,
+                    'price': product.price,
                     'qty': qty
                 }
             ]
@@ -64,7 +68,7 @@ export default {
                 cart = JSON.parse(cart)
 
                 cart.forEach(productInCart =>{
-                    if (productInCart.id === id) {
+                    if (productInCart.id === product.id) {
                         productInCart.qty = Number(productInCart.qty) + Number(qty)
                         newProduct = null
                     }
@@ -94,15 +98,6 @@ export default {
     color: #5E6977;
     font-size: 18px;
     font-weight: 400;
-}
-.wrapper{
-    height: 50px;
-    width: 25%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    border-radius: 12px;
 }
 
 .wrapper span {
@@ -160,7 +155,7 @@ export default {
 }
 
 .pic-1 {
-    width: 50%;
+    width: 30px;
     height: auto;
     transition: all 0.3s;
 }
@@ -188,5 +183,115 @@ export default {
     font-weight: 300;
     margin-top: 8px;
     color: #86939E;
+}
+.cart-button {
+    position: relative;
+    padding: 10px;
+    width: 200px;
+    height: 50px;
+    border: 0;
+    border-radius: 10px;
+    background-color: #2b3044;
+    outline: none;
+    cursor: pointer;
+    margin: 0 10px;
+    color: #fff;
+    transition: 0.3s ease-in-out;
+    overflow: hidden;
+    user-select: none;
+}
+
+.cart-button:hover {
+    background-color: #202431;
+}
+.cart-button:active {
+    transform: scale(0.9);
+}
+
+.cart-button .fa-shopping-cart {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: -10%;
+    font-size: 2em;
+    transform: translate(-50%, -50%);
+}
+
+.cart-button span {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    font-size: 1.2em;
+    color: #fff;
+    transform: translate(-50%, -50%);
+}
+.cart-button span.add-to-cart {
+    opacity: 1;
+}
+.cart-button span.added {
+    opacity: 0;
+}
+
+.cart-button.clicked .fa-shopping-cart {
+    animation: cart 1.5s ease-in-out forwards;
+}
+
+.cart-button.clicked span.add-to-cart {
+    animation: txt1 1.5s ease-in-out forwards;
+}
+.cart-button.clicked span.added {
+    animation: txt2 1.5s ease-in-out forwards;
+}
+@keyframes cart {
+    0% {
+        left: -10%;
+    }
+    40%,
+    60% {
+        left: 50%;
+    }
+    100% {
+        left: 110%;
+    }
+}
+
+@keyframes txt1 {
+    0% {
+        opacity: 1;
+    }
+    20%,
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes txt2 {
+    0%,
+    80% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.pqt-plus,
+.pqt-minus {
+    background: #fff;
+    border: none;
+    font-size: 20px;
+    padding: 0 20px;
+    width: 50px;
+    border-radius: 10px;
+    height: 50px;
+    user-select: none;
+    line-height: 50px;
+}
+
+.pqt-plus:hover,
+.pqt-minus:hover {
+    background: #202431;
+    color: #fff;
+    cursor: pointer;
 }
 </style>

@@ -13,7 +13,7 @@ const routeInfo = [
         props: true
     },
     {
-        path : "/cart/",
+        path : "/cart",
         component : () => import ('./components/product/Cart.vue'),
         name: 'cart.index'
     }

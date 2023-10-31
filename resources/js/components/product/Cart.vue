@@ -7,66 +7,24 @@
         </div>
 
         <!-- Товар #1 -->
-        <div class="item">
-            <div class="buttons">
-                <span class="delete-btn">X</span>
+        <div v-for="product in products" class="item">
+            <div class="product-image">
+                <img :src="product.image_url" class="pic-1">
             </div>
 
             <div class="description">
-                <span>Common Projects</span>
-                <span>Bball High</span>
-                <span>White</span>
+                <router-link :to="{name: 'products.show', params: { id: product.id }}">
+                    <span>{{ product.title }}</span>
+                </router-link>
             </div>
 
-            <div class="wrapper">
+            <div class="qtySelector">
                 <span class="minus">-</span>
-                <span class="num">01</span>
+                <input type="number" class="qtyValue" :value="product.qty"/>
                 <span class="plus">+</span>
             </div>
 
-            <div class="total-price">$549</div>
-        </div>
-
-        <!-- Товар #2 -->
-        <div class="item">
-            <div class="buttons">
-                <span class="delete-btn">X</span>
-            </div>
-
-            <div class="description">
-                <span>Maison Margiela</span>
-                <span>Future Sneakers</span>
-                <span>White</span>
-            </div>
-
-            <div class="wrapper">
-                <span class="minus">-</span>
-                <span class="num">01</span>
-                <span class="plus">+</span>
-            </div>
-
-            <div class="total-price">$870</div>
-        </div>
-
-        <!-- Товар #3 -->
-        <div class="item">
-            <div class="buttons">
-                <span class="delete-btn">X</span>
-            </div>
-
-            <div class="description">
-                <span>Our Legacy</span>
-                <span>Brushed Scarf</span>
-                <span>Brown</span>
-            </div>
-
-            <div class="wrapper">
-                <span class="minus">-</span>
-                <span class="num">01</span>
-                <span class="plus">+</span>
-            </div>
-
-            <div class="total-price">$349</div>
+            <div class="total-price">${{ product.price}} * {{ product.qty }} = {{ product.price * product.qty }}</div>
         </div>
 
         <div class="amount-total">
@@ -81,39 +39,57 @@ export default {
     name: "Cart",
 
     mounted() {
-        const plus = document.querySelector(".plus"),
-            minus = document.querySelector(".minus"),
-            num = document.querySelector(".num");
+        $(document).trigger('change')
+        this.getCartProducts()
+    },
 
-        let a = 1;
+    data() {
+        return {
+            products: []
+        }
+    },
 
-        plus.addEventListener("click", () => {
-            a++;
-            a = (a < 10) ? "0" + a : a;
-            num.innerText = a;
-        });
+    methods: {
 
-        minus.addEventListener("click", () => {
-            if (a > 1) {
-                a--;
-                a = (a < 10) ? "0" + a : a;
-                num.innerText = a;
+        addToCart(product) {
+            let cart = localStorage.getItem('cart')
+            let newProduct = [
+                {
+                    'id': product.id,
+                    'image_url': product.image_url,
+                    'title': product.title,
+                    'price': product.price,
+                    'qty': 1
+                }
+            ]
+            if (!cart) {
+                localStorage.setItem('cart', JSON.stringify(newProduct));
+            } else {
+                cart = JSON.parse(cart)
+
+                cart.forEach(productInCart =>{
+                    if (productInCart.id === product.id) {
+                        productInCart.qty = Number(productInCart.qty) + 1
+                        newProduct = null
+                    }
+                })
+
+                Array.prototype.push.apply(cart, newProduct)
+
+                localStorage.setItem('cart', JSON.stringify(cart))
             }
-        });
+        },
+        getCartProducts() {
+            this.products = JSON.parse(localStorage.getItem('cart'))
+            $(document).trigger('changed')
+        },
     }
 }
-
 </script>
 
 <style scoped>
 .shopping-cart {
     width: 100%;
-    height: 423px;
-    margin: 80px auto;
-    background: #FFFFFF;
-    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
-    border-radius: 6px;
-
     display: flex;
     flex-direction: column;
 }
@@ -126,6 +102,22 @@ export default {
     font-weight: 400;
 }
 
+.item {
+    display: flex;
+    height: 120px;
+    border-bottom: 1px solid #E1E8EE;
+    padding: 20px 30px;
+    color: #5E6977;
+    font-size: 18px;
+    font-weight: 400;
+    background: #FFFFFF;
+}
+
+.item:nth-child(3) {
+    border-top:  1px solid #E1E8EE;
+    border-bottom:  1px solid #E1E8EE;
+}
+
 .amount-total {
     height: 60px;
     border-bottom: 1px solid #E1E8EE;
@@ -136,29 +128,17 @@ export default {
     text-align: right;
 }
 
-.item {
-    padding: 20px 30px;
-    height: 120px;
-    display: flex;
+
+.pic-1 {
+    width: 100px;
+    height: auto;
+    transition: all 0.3s;
 }
 
-.item:nth-child(3) {
-    border-top:  1px solid #E1E8EE;
-    border-bottom:  1px solid #E1E8EE;
+.product-image {
+    width: 20%;
 }
-.buttons {
-    position: relative;
-    padding-top: 30px;
-    width: 10%;
-}
-.delete-btn {
-    display: inline-block;
-    Cursor: pointer;
-}
-.delete-btn {
-    width: 18px;
-    height: 17px;
-}
+
 
 @keyframes animate {
     0%   { background-position: left;  }
@@ -167,7 +147,7 @@ export default {
 }
 
 .description {
-    width: 50%;
+    width: 40%;
 }
 
 .description span {
@@ -188,6 +168,7 @@ export default {
 
 .wrapper{
     height: 50px;
+    width: 20%;
     min-width: 100px;
     display: flex;
     align-items: center;

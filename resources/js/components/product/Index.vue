@@ -13,9 +13,12 @@
                         <div class="product-content">
                             <h3 class="title">{{ product.title }}</h3>
                             <div class="price">{{ product.price }} руб.</div>
-                            <a class="add-to-cart" @click.prevent="addToCart(product.id)" href="#">
-                                <i class="fas fa-shopping-cart"></i><span>в корзину</span>
-                            </a>
+
+                            <div class="wrapper">
+                                <span class="minus">-</span>
+                                <span class="num">1</span>
+                                <span class="plus">+</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -40,11 +43,14 @@ export default {
 
     methods: {
 
-        addToCart(id) {
+        addToCart(product) {
             let cart = localStorage.getItem('cart')
             let newProduct = [
                 {
-                    'id': id,
+                    'id': product.id,
+                    'image_url': product.image_url,
+                    'title': product.title,
+                    'price': product.price,
                     'qty': 1
                 }
             ]
@@ -54,7 +60,7 @@ export default {
                 cart = JSON.parse(cart)
 
                 cart.forEach(productInCart =>{
-                    if (productInCart.id === id) {
+                    if (productInCart.id === product.id) {
                         productInCart.qty = Number(productInCart.qty) + 1
                         newProduct = null
                     }

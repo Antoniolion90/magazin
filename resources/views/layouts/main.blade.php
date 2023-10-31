@@ -9,7 +9,8 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.css') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+
     <style>
         @media (min-width: 768px) {
 
@@ -28,6 +29,31 @@
                 display: block !important;
             }
         }
+
+        .wrapper{
+            height: 3vh;
+            width: 10vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        .wrapper span{
+            width: 100%;
+            text-align: center;
+            font-size: 2vh;
+            font-weight: 400;
+            cursor: pointer;
+            user-select: none;
+        }
+        .wrapper span.num{
+            font-size: 2vh;
+            border-right: 2px solid rgba(0,0,0,0.2);
+            border-left: 2px solid rgba(0,0,0,0.2);
+            pointer-events: none;
+        }
     </style>
 
 </head>
@@ -38,7 +64,9 @@
             <div class="row">
                 <div class="col-sm-8 col-md-7 py-4">
                     <h4>О нас</h4>
-                    <p class="text-body-secondary">Добавьте информацию ниже, об авторе или любом другом фоновом контексте. Составьте несколько предложений, чтобы люди могли почерпнуть полезные сведения. Затем свяжите их с сайтами социальных сетей или с контактной информацией.</p>
+                    <p class="text-body-secondary">Добавьте информацию ниже, об авторе или любом другом фоновом
+                        контексте. Составьте несколько предложений, чтобы люди могли почерпнуть полезные сведения. Затем
+                        свяжите их с сайтами социальных сетей или с контактной информацией.</p>
                 </div>
                 <div class="col-sm-4 offset-md-1 py-4">
                     <h4>Контакты</h4>
@@ -54,10 +82,16 @@
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container">
             <a href="{{ route('main.index') }}" class="navbar-brand d-flex align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2"
+                     viewBox="0 0 24 24">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                </svg>
                 <strong>Заказы</strong>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Переключить навигацию">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Переключить навигацию">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
