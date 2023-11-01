@@ -7,28 +7,33 @@
         </div>
 
         <!-- Товар #1 -->
-        <div v-for="product in products" class="item">
-            <div class="product-image">
+        <div v-for="product in products" class="item row">
+            <div class="product-image col-auto">
+                <router-link :to="{name: 'products.show', params: { id: product.id }}">
                 <img :src="product.image_url" class="pic-1">
+                </router-link>
             </div>
 
-            <div class="description">
+            <div class="description col-4">
                 <router-link :to="{name: 'products.show', params: { id: product.id }}">
                     <span>{{ product.title }}</span>
                 </router-link>
             </div>
+            <div class="col-4">
+                <div class="qtySelector">
+                    <span @click.prevent="minusQty(product)" class="minus">-</span>
+                    <span class="qtyValue">{{product.qty}}</span>
+                    <span @click.prevent="plusQty(product)" class="plus">+</span>
+                </div>
 
-            <div class="qtySelector">
-                <span class="minus">-</span>
-                <input type="number" class="qtyValue" :value="product.qty"/>
-                <span class="plus">+</span>
+                <div class="total-price">{{ product.price}} руб. * {{ product.qty }} = {{ product.price * product.qty }} руб.</div>
             </div>
-
-            <div class="total-price">${{ product.price}} * {{ product.qty }} = {{ product.price * product.qty }}</div>
+            <div @click.prevent="removeProduct(product.id)" class="remove col-auto">
+                <p class="danger">x</p>
+            </div>
         </div>
-
         <div class="amount-total">
-            Итого: ххх рубль
+            Итого: {{ sum }} руб., Count: {{ counts }} шт.
         </div>
     </div>
 </div>
@@ -41,11 +46,25 @@ export default {
     mounted() {
         $(document).trigger('change')
         this.getCartProducts()
+
     },
 
     data() {
         return {
-            products: []
+            products: [],
+        }
+    },
+
+    computed: {
+        sum() {
+            let result = 0;
+            this.products.forEach(product=> result += product.price*product.qty);
+            return result;
+        },
+        counts(){
+            let result = 0;
+            this.products.forEach(product=> result += product.qty);
+            return result;
         }
     },
 
@@ -79,10 +98,34 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(cart))
             }
         },
+
         getCartProducts() {
             this.products = JSON.parse(localStorage.getItem('cart'))
             $(document).trigger('changed')
         },
+
+        minusQty(product) {
+            if ( product.qty <= 1) return
+            product.qty--
+            this.updateCart()
+        },
+
+        plusQty(product) {
+            if ( product.qty >= 10) return
+            product.qty++
+            this.updateCart()
+        },
+
+        removeProduct(id) {
+            this.products = this.products.filter( product => {
+                return product.id !== id
+            })
+            this.updateCart()
+        },
+
+        updateCart() {
+            localStorage.setItem('cart', JSON.stringify(this.products))
+        }
     }
 }
 </script>
@@ -101,7 +144,10 @@ export default {
     font-size: 18px;
     font-weight: 400;
 }
-
+.danger {
+    color: red;
+    font-weight: bold;
+}
 .item {
     display: flex;
     height: 120px;
@@ -146,10 +192,6 @@ export default {
     100% { background-position: right; }
 }
 
-.description {
-    width: 40%;
-}
-
 .description span {
     display: block;
     font-size: 14px;
@@ -166,46 +208,32 @@ export default {
     color: #86939E;
 }
 
-.wrapper{
-    height: 50px;
-    width: 20%;
-    min-width: 100px;
+.qtySelector{
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fff;
-    border-radius: 12px;
-}
+    font-size: 2vh;
+    font-weight: bold;
 
-.wrapper span {
-    width: 100%;
+}
+.qtySelector span{
+    width: 30%;
+    display: inline-block;
     text-align: center;
-    font-size: 25px;
-    font-weight: 400;
     cursor: pointer;
     user-select: none;
+    background: #fff;
+    border-radius: 1vh;
+    box-shadow: 0 5vh 10vh rgba(0,0,0,0.2);
 }
-
-.wrapper span.num{
-    font-size: 20px;
+.qtySelector span.qtyValue{
+    font-size: 2vh;
+    border-right: 2px solid rgba(0,0,0,0.2);
+    border-left: 2px solid rgba(0,0,0,0.2);
     pointer-events: none;
 }
 
-button[class*=btn] {
-    width: 30%;
-    height: 30px;
-    background-color: #E1E8EE;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-}
-
-button:focus,
-input:focus {
-    outline:0;
-}
 .total-price {
-    width: 20%;
     padding-top: 27px;
     text-align: center;
     font-size: 16px;

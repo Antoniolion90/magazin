@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-                <div v-for="product in products" class="col-6">
+            <div class="row row-cols-md-2">
+                <div v-for="product in products">
                     <div class="product-grid">
                         <div class="product-image">
                             <router-link :to="{ name: 'products.show', params: { id: product.id }}" class="image">
@@ -12,12 +12,17 @@
                         </div>
                         <div class="product-content">
                             <h3 class="title">{{ product.title }}</h3>
-                            <div class="price">{{ product.price }} руб.</div>
-
-                            <div class="wrapper">
-                                <span class="minus">-</span>
-                                <span class="num">1</span>
-                                <span class="plus">+</span>
+                            <div class="row row-cols-md-2">
+                                <div class="price">{{ product.price }} руб.</div>
+                                <div>
+                                    <div v-for="cart in carts">
+                                        <div v-if="cart.id === product.id" class="qtyCart">
+                                            <span @click.prevent="minusQty(cart)" class="minus">-</span>
+                                            <span class="num">{{ cart.qty }}</span>
+                                            <span @click.prevent="plusQty(cart)" class="plus">+</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -32,12 +37,14 @@ export default {
     name: "Index",
 
     mounted() {
-        this.getProducts()
+        this.getProducts();
+        this.getCartProducts();
     },
 
     data() {
         return {
-            products: []
+            products: [],
+            carts: []
         }
     },
 
@@ -59,7 +66,7 @@ export default {
             } else {
                 cart = JSON.parse(cart)
 
-                cart.forEach(productInCart =>{
+                cart.forEach(productInCart => {
                     if (productInCart.id === product.id) {
                         productInCart.qty = Number(productInCart.qty) + 1
                         newProduct = null
@@ -76,6 +83,32 @@ export default {
                 .then(res => {
                     this.products = res.data.data;
                 })
+        },
+        getCartProducts() {
+            this.carts = JSON.parse(localStorage.getItem('cart'))
+        },
+
+        minusQty(product) {
+            if (product.qty < 2) return this.removeProduct(product.id)
+            product.qty--
+            this.updateCart()
+        },
+
+        plusQty(product) {
+            if (product.qty >= 10) return
+            product.qty++
+            this.updateCart()
+        },
+
+        removeProduct(id) {
+            this.carts = this.carts.filter( product => {
+                return product.id !== id
+            })
+            this.updateCart()
+        },
+
+        updateCart() {
+            localStorage.setItem('cart', JSON.stringify(this.carts))
         }
     }
 }
@@ -119,63 +152,6 @@ export default {
     clip-path: polygon(0 0, 100% 0, 100% 75%, 15% 75%, 0 100%, 0% 25%);
 }
 
-.product-grid .social {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    opacity: 0;
-    transform: translateY(-50%);
-    position: absolute;
-    top: 50%;
-    left: -50px;
-    transition: all 0.3s ease;
-}
-
-.product-grid .product-image:hover .social {
-    opacity: 1;
-    left: 0;
-}
-
-.product-grid .social li {
-    margin: 5px 0;
-}
-
-.product-grid .social li a {
-    color: #fff;
-    background: #033772;
-    font-size: 16px;
-    line-height: 40px;
-    width: 40px;
-    height: 40px;
-    display: block;
-    position: relative;
-    transition: all .3s ease;
-}
-
-.product-grid .social li a:hover {
-    background: #1f72ce;
-}
-
-.product-grid .social li a:before {
-    content: attr(data-tip);
-    color: #fff;
-    background-color: #1f72ce;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 22px;
-    padding: 9px 12px;
-    white-space: nowrap;
-    visibility: hidden;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    transition: all 0.3s ease;
-}
-
-.product-grid .social li a:hover:before {
-    visibility: visible;
-}
-
 .product-grid .product-content {
     width: 100%;
     padding: 12px 0;
@@ -184,9 +160,10 @@ export default {
 
 .product-grid .title {
     margin: 0 0 7px;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-family: 'Nunito', sans-serif;
     text-transform: capitalize;
+    font-weight: bold;
 }
 
 .product-grid .title a {
@@ -199,82 +176,37 @@ export default {
 }
 
 .product-grid .price {
-    color: #000;
-    font-size: 16px;
-    font-weight: 600;
-    width: calc(100% - 100px);
-    margin: 0 0 10px;
+    color: green;
+    font-size: 1.5rem;
+    font-weight: bold;
     display: inline-block;
 }
 
-.product-grid .price span {
-    color: #7a7a7a;
-    font-size: 15px;
-    text-decoration: line-through;
-    margin-right: 5px;
+.qtyCart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vh;
+    font-weight: bold;
+
+}
+
+.qtyCart span {
+    width: 30%;
     display: inline-block;
-}
-
-.product-grid .rating {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    display: inline-block;
-    float: right;
-}
-
-.product-grid .rating li {
-    color: #ffc500;
-    font-size: 13px;
-}
-
-.product-grid .rating li.far {
-    color: #bababa;
-}
-
-.product-grid .add-to-cart {
-    color: #000;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
     background: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    text-align: left;
-    width: 75%;
-    margin: 0 auto;
-    border: 1px solid #033772;
-    display: block;
-    transition: all .3s ease;
+    border-radius: 1vh;
+    box-shadow: 0 5vh 10vh rgba(0, 0, 0, 0.2);
 }
 
-.product-grid .add-to-cart:hover {
-    color: #fff;
-    background: #033772;
-}
-
-.product-grid .add-to-cart i {
-    color: #fff;
-    background-color: #033772;
-    text-align: center;
-    line-height: 35px;
-    height: 35px;
-    width: 35px;
-    border-right: 1px solid #fff;
-    display: inline-block;
-}
-
-.product-grid .add-to-cart span {
-    text-align: center;
-    line-height: 35px;
-    height: 35px;
-    width: calc(100% - 40px);
-    padding: 0 6px;
-    vertical-align: top;
-    display: inline-block;
-}
-
-@media only screen and (max-width: 990px) {
-    .product-grid {
-        margin: 0 0 30px;
-    }
+.qtyCart span.num {
+    font-size: 2vh;
+    border-right: 2px solid rgba(0, 0, 0, 0.2);
+    border-left: 2px solid rgba(0, 0, 0, 0.2);
+    pointer-events: none;
 }
 
 </style>

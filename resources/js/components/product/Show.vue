@@ -1,25 +1,30 @@
 <template>
     <div>
-        <div v-if="product" class="shopping-cart">
-            <!-- Title -->
-            <div class="title">
-                {{ product.title }}
-            </div>
-            <div class="product-image">
-                <img :src="product.image_url" class="pic-1">
-            </div>
-            <div class="description">
-                <span>{{ product.description }}</span>
-            </div>
-            <div class="qtySelector">
-                <span class="minus">-</span>
-                <input type="number" class="qtyValue" value="1"/>
-                <span class="plus">+</span>
-            </div>
-            <div class="product">
-                <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
-                    <i class="fas fa-shopping-cart"></i><span>в корзину</span>
-                </a>
+        <div class="container">
+            <div v-if="product" class="shopping-cart">
+                <!-- Title -->
+                <div class="title">
+                    {{ product.title }}
+                </div>
+                <div class="product-image">
+                    <img :src="product.image_url" class="pic-1">
+                </div>
+                <div class="description">
+                    <span>{{ product.description }}</span>
+                </div>
+                <div class="price">{{ product.price }} руб.</div>
+                <div class="row row-cols-md-2">
+                    <div v-if="cart[0]" class="qtyCart">
+                        <span @click.prevent="minusQty(cart[0])" class="minus">-</span>
+                        <span class="num">{{ cart[0].qty }}</span>
+                        <span @click.prevent="plusQty(cart[0])" class="plus">+</span>
+                    </div>
+                    <div v-else class="product">
+                        <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
+                            <i class="fas fa-shopping-cart"></i><span>в корзину</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -31,7 +36,9 @@ export default {
 
     data() {
         return {
-            product: null
+            product: null,
+            carts: [],
+            cart: []
         }
     },
 
@@ -44,22 +51,27 @@ export default {
 
     mounted() {
         this.getProduct();
-        $(document).trigger('change')
+        this.getCartProducts();
     },
 
     methods: {
+        getProduct() {
+            this.axios.get(`/api/products/${this.id}`)
+                .then(res => {
+                    this.product = res.data.data;
+                })
+                .catch(error => console.log(error.message));
+        },
+
         addToCart(product) {
             let cart = localStorage.getItem('cart')
-
-            let qty = $('input.qtyValue').val() ? $('input.qtyValue').val() : 1
-            $('input.qtyValue').val(1)
             let newProduct = [
                 {
                     'id': product.id,
                     'image_url': product.image_url,
                     'title': product.title,
                     'price': product.price,
-                    'qty': qty
+                    'qty': 1
                 }
             ]
             if (!cart) {
@@ -67,9 +79,9 @@ export default {
             } else {
                 cart = JSON.parse(cart)
 
-                cart.forEach(productInCart =>{
+                cart.forEach(productInCart => {
                     if (productInCart.id === product.id) {
-                        productInCart.qty = Number(productInCart.qty) + Number(qty)
+                        productInCart.qty = Number(productInCart.qty) + 1
                         newProduct = null
                     }
                 })
@@ -79,40 +91,54 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(cart))
             }
         },
-        getProduct() {
-            this.axios.get(`/api/products/${this.id}`)
-                .then(res => {
-                    this.product = res.data.data;
-                })
-                .catch(error => console.log(error.message));
+
+        getCartProducts() {
+            this.carts = JSON.parse(localStorage.getItem('cart'))
+            this.cart = this.carts.filter( product => { return product.id == this.id })
+        },
+
+        minusQty(product) {
+            if (product.qty < 2) return this.removeProduct(product.id)
+            product.qty--
+            this.updateCart()
+        },
+
+        plusQty(product) {
+            if (product.qty >= 10) return
+            product.qty++
+            this.updateCart()
+        },
+
+        removeProduct(id) {
+            this.carts = this.carts.filter( product => {
+                return product.id !== id
+            })
+            this.updateCart()
+        },
+
+        updateCart() {
+            localStorage.setItem('cart', JSON.stringify(this.carts))
         }
     }
 }
 </script>
 
 <style scoped>
+
 .title {
     height: 60px;
-    border-bottom: 1px solid #E1E8EE;
     padding: 20px 30px;
-    color: #5E6977;
+    color: #000;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: bold;
 }
 
-.wrapper span {
-    width: 30%;
-    text-align: center;
-    font-size: 25px;
-    font-weight: 400;
-    cursor: pointer;
-    user-select: none;
-}
-
-.product-content {
-    width: 100%;
-    padding: 12px 0;
+.price {
+    color: green;
+    font-size: 1.5rem;
+    font-weight: bold;
     display: inline-block;
+    padding: 0 30px 10px 20px;
 }
 
 .add-to-cart {
@@ -154,95 +180,58 @@ export default {
     display: inline-block;
 }
 
-.pic-1 {
-    width: 30px;
+.product-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 80%;
     height: auto;
     transition: all 0.3s;
 }
 
-.wrapper span.num{
-    font-size: 20px;
-    pointer-events: none;
-}
-
 .description {
-    width: 50%;
+    height: 60px;
+    padding: 20px 30px 10px 20px;
+    color: #000;
+    font-size: 18px;
 }
 
 .description span {
     display: block;
     font-size: 14px;
-    color: #43484D;
-    font-weight: 400;
+    color: #000;
+    font-weight: bold;
 }
 
-.description span:first-child {
-    margin-bottom: 5px;
+.qtyCart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vh;
+    font-weight: bold;
+
 }
-.description span:last-child {
-    font-weight: 300;
-    margin-top: 8px;
-    color: #86939E;
-}
-.cart-button {
-    position: relative;
-    padding: 10px;
-    width: 200px;
-    height: 50px;
-    border: 0;
-    border-radius: 10px;
-    background-color: #2b3044;
-    outline: none;
+
+.qtyCart span {
+    width: 30%;
+    display: inline-block;
+    text-align: center;
     cursor: pointer;
-    margin: 0 10px;
-    color: #fff;
-    transition: 0.3s ease-in-out;
-    overflow: hidden;
     user-select: none;
+    background: #fff;
+    border-radius: 1vh;
+    box-shadow: 0 5vh 10vh rgba(0, 0, 0, 0.2);
 }
 
-.cart-button:hover {
-    background-color: #202431;
-}
-.cart-button:active {
-    transform: scale(0.9);
-}
-
-.cart-button .fa-shopping-cart {
-    position: absolute;
-    z-index: 2;
-    top: 50%;
-    left: -10%;
-    font-size: 2em;
-    transform: translate(-50%, -50%);
+.qtyCart span.num {
+    font-size: 2vh;
+    border-right: 2px solid rgba(0, 0, 0, 0.2);
+    border-left: 2px solid rgba(0, 0, 0, 0.2);
+    pointer-events: none;
 }
 
-.cart-button span {
-    position: absolute;
-    z-index: 3;
-    left: 50%;
-    top: 50%;
-    font-size: 1.2em;
-    color: #fff;
-    transform: translate(-50%, -50%);
-}
-.cart-button span.add-to-cart {
-    opacity: 1;
-}
-.cart-button span.added {
-    opacity: 0;
-}
-
-.cart-button.clicked .fa-shopping-cart {
-    animation: cart 1.5s ease-in-out forwards;
-}
-
-.cart-button.clicked span.add-to-cart {
-    animation: txt1 1.5s ease-in-out forwards;
-}
-.cart-button.clicked span.added {
-    animation: txt2 1.5s ease-in-out forwards;
-}
 @keyframes cart {
     0% {
         left: -10%;
@@ -265,6 +254,7 @@ export default {
         opacity: 0;
     }
 }
+
 @keyframes txt2 {
     0%,
     80% {
@@ -275,23 +265,4 @@ export default {
     }
 }
 
-.pqt-plus,
-.pqt-minus {
-    background: #fff;
-    border: none;
-    font-size: 20px;
-    padding: 0 20px;
-    width: 50px;
-    border-radius: 10px;
-    height: 50px;
-    user-select: none;
-    line-height: 50px;
-}
-
-.pqt-plus:hover,
-.pqt-minus:hover {
-    background: #202431;
-    color: #fff;
-    cursor: pointer;
-}
 </style>

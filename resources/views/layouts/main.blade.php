@@ -30,30 +30,6 @@
             }
         }
 
-        .wrapper{
-            height: 3vh;
-            width: 10vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-        }
-        .wrapper span{
-            width: 100%;
-            text-align: center;
-            font-size: 2vh;
-            font-weight: 400;
-            cursor: pointer;
-            user-select: none;
-        }
-        .wrapper span.num{
-            font-size: 2vh;
-            border-right: 2px solid rgba(0,0,0,0.2);
-            border-left: 2px solid rgba(0,0,0,0.2);
-            pointer-events: none;
-        }
     </style>
 
 </head>
