@@ -14,14 +14,19 @@
                             <h3 class="title">{{ product.title }}</h3>
                             <div class="row row-cols-md-2">
                                 <div class="price">{{ product.price }} руб.</div>
+
                                 <div>
-                                    <div v-for="cart in carts">
-                                        <div v-if="cart.id === product.id" class="qtyCart">
-                                            <span @click.prevent="minusQty(cart)" class="minus">-</span>
-                                            <span class="num">{{ cart.qty }}</span>
-                                            <span @click.prevent="plusQty(cart)" class="plus">+</span>
-                                        </div>
+                                    <div v-for="cart in this.carts.filter( prod => { return prod.id == product.id })" class="qtyCart">
+                                        <span @click.prevent="minusQty(cart)" class="minus">-</span>
+                                        <span class="num">{{ cart.qty }}</span>
+                                        <span @click.prevent="plusQty(cart)" class="plus">+</span>
                                     </div>
+                                    <div class="product">
+                                        <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
+                                            <i class="fas fa-shopping-cart"></i><span>Купить</span>
+                                        </a>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -44,12 +49,19 @@ export default {
     data() {
         return {
             products: [],
-            carts: []
+            carts: [],
+            cart: []
         }
     },
 
     methods: {
-
+        getProducts() {
+            this.axios.get('/api')
+                .then(res => {
+                    this.products = res.data.data;
+                })
+                .catch(error => console.log(error.message));
+        },
         addToCart(product) {
             let cart = localStorage.getItem('cart')
             let newProduct = [
@@ -78,14 +90,10 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(cart))
             }
         },
-        getProducts() {
-            this.axios.get('/api')
-                .then(res => {
-                    this.products = res.data.data;
-                })
-        },
         getCartProducts() {
             this.carts = JSON.parse(localStorage.getItem('cart'))
+            console.log(this.carts)
+
         },
 
         minusQty(product) {
@@ -101,6 +109,7 @@ export default {
         },
 
         removeProduct(id) {
+            this.cart = []
             this.carts = this.carts.filter( product => {
                 return product.id !== id
             })
@@ -179,6 +188,46 @@ export default {
     color: green;
     font-size: 1.5rem;
     font-weight: bold;
+    display: inline-block;
+}
+
+
+.add-to-cart {
+    color: #000;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    width: 75%;
+    margin: 0 auto;
+    border: 1px solid #033772;
+    display: block;
+    transition: all .3s ease;
+}
+
+.add-to-cart:hover {
+    color: #fff;
+    background: #033772;
+}
+
+.add-to-cart i {
+    color: #fff;
+    background-color: #033772;
+    text-align: center;
+    line-height: 35px;
+    height: 35px;
+    width: 35px;
+    border-right: 1px solid #fff;
+    display: inline-block;
+}
+
+.add-to-cart span {
+    text-align: center;
+    line-height: 35px;
+    height: 35px;
+    width: calc(100% - 40px);
+    padding: 0 6px;
+    vertical-align: top;
     display: inline-block;
 }
 

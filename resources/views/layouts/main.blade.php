@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.css') }}">
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         @media (min-width: 768px) {

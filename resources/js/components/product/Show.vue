@@ -21,11 +21,12 @@
                     </div>
                     <div v-else class="product">
                         <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
-                            <i class="fas fa-shopping-cart"></i><span>в корзину</span>
+                            <i class="fas fa-shopping-cart"></i><span>Купить</span>
                         </a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -110,6 +111,7 @@ export default {
         },
 
         removeProduct(id) {
+            this.cart = []
             this.carts = this.carts.filter( product => {
                 return product.id !== id
             })
