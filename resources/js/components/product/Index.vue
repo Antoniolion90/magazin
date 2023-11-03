@@ -16,12 +16,12 @@
                                 <div class="price">{{ product.price }} руб.</div>
 
                                 <div>
-                                    <div v-for="cart in this.carts.filter( prod => { return prod.id == product.id })" class="qtyCart">
+                                    <div v-for="cart in cartFilter(product.id)" :key="product.id" class="qtyCart">
                                         <span @click.prevent="minusQty(cart)" class="minus">-</span>
                                         <span class="num">{{ cart.qty }}</span>
                                         <span @click.prevent="plusQty(cart)" class="plus">+</span>
                                     </div>
-                                    <div class="product">
+                                    <div v-if="!(noCarts(product.id))" class="product">
                                         <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
                                             <i class="fas fa-shopping-cart"></i><span>Купить</span>
                                         </a>
@@ -55,6 +55,7 @@ export default {
     },
 
     methods: {
+
         getProducts() {
             this.axios.get('/api')
                 .then(res => {
@@ -92,8 +93,6 @@ export default {
         },
         getCartProducts() {
             this.carts = JSON.parse(localStorage.getItem('cart'))
-            console.log(this.carts)
-
         },
 
         minusQty(product) {
@@ -110,10 +109,26 @@ export default {
 
         removeProduct(id) {
             this.cart = []
-            this.carts = this.carts.filter( product => {
+            this.carts = this.carts.filter(product => {
                 return product.id !== id
             })
             this.updateCart()
+        },
+
+        cartFilter(id) {
+            if (Array.isArray(this.carts)) {
+                return this.carts.filter(article => article.id === id)
+            }
+        },
+
+        noCarts(id) {
+            if (Array.isArray(this.carts)) {
+                for (let article of this.carts) {
+                    if (article.id === id) {
+                        return true
+                    }
+                }
+            }
         },
 
         updateCart() {
