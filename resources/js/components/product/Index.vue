@@ -1,33 +1,31 @@
 <template>
     <div>
-        <div class="container">
-            <div class="row row-cols-md-2">
-                <div v-for="product in products">
-                    <div class="product-grid">
-                        <div class="product-image">
-                            <router-link :to="{ name: 'products.show', params: { id: product.id }}" class="image">
-                                <img :src="product.image_url" class="pic-1">
-                            </router-link>
-                            <span class="product-new-label">new</span>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="title">{{ product.title }}</h3>
-                            <div class="row row-cols-md-2">
-                                <div class="price">{{ product.price }} руб.</div>
+        <div class="row row-cols-md-2">
+            <div v-for="product in products">
+                <div class="product-grid">
+                    <div class="product-image">
+                        <router-link :to="{ name: 'products.show', params: { id: product.id }}" class="image">
+                            <img :src="product.image_url" class="pic-1">
+                        </router-link>
+                        <span class="product-new-label">new</span>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="title">{{ product.title }}</h3>
+                        <div class="row row-cols-md-2">
+                            <div class="price">{{ product.price }} руб.</div>
 
-                                <div>
-                                    <div v-for="cart in cartFilter(product.id)" :key="product.id" class="qtyCart">
-                                        <span @click.prevent="minusQty(cart)" class="minus">-</span>
-                                        <span class="num">{{ cart.qty }}</span>
-                                        <span @click.prevent="plusQty(cart)" class="plus">+</span>
-                                    </div>
-                                    <div v-if="!(noCarts(product.id))" class="product">
-                                        <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
-                                            <i class="fas fa-shopping-cart"></i><span>Купить</span>
-                                        </a>
-                                    </div>
-
+                            <div>
+                                <div v-for="cart in cartFilter(product.id)" :key="product.id" class="qtyCart">
+                                    <span @click.prevent="minusQty(cart)" class="minus">-</span>
+                                    <span class="num">{{ cart.qty }}</span>
+                                    <span @click.prevent="plusQty(cart)" class="plus">+</span>
                                 </div>
+                                <div v-if="!(noCarts(product.id))" class="product">
+                                    <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
+                                        <i class="fas fa-shopping-cart"></i><span>Купить</span>
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -44,6 +42,8 @@ export default {
     mounted() {
         this.getProducts();
         this.getCartProducts();
+        let tg = window.Telegram.WebApp;
+        tg.expand();
     },
 
     data() {
@@ -164,13 +164,12 @@ export default {
 }
 
 .product-grid .product-new-label {
-    color: #fff;
-    background: #cd1b29;
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     padding: 3px 10px 10px;
     position: absolute;
+    background: red;
     top: 0px;
     left: 0;
     clip-path: polygon(0 0, 100% 0, 100% 75%, 15% 75%, 0 100%, 0% 25%);
@@ -191,12 +190,7 @@ export default {
 }
 
 .product-grid .title a {
-    color: #000;
     transition: all 0.4s ease-out;
-}
-
-.product-grid .title a:hover {
-    color: #033772;
 }
 
 .product-grid .price {
@@ -253,6 +247,7 @@ export default {
     font-size: 2vh;
     font-weight: bold;
 
+
 }
 
 .qtyCart span {
@@ -261,8 +256,9 @@ export default {
     text-align: center;
     cursor: pointer;
     user-select: none;
-    background: #fff;
     border-radius: 1vh;
+    color: var(--tg-theme-button-text-color);
+    background: var(--tg-theme-button-color);
     box-shadow: 0 5vh 10vh rgba(0, 0, 0, 0.2);
 }
 

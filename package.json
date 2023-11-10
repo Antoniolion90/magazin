@@ -16,6 +16,8 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "@erfanmola/televue": "^0.1.6",
+        "react-native-yamap": "^4.1.18",
         "vue-router": "^4.2.5"
     }
 }

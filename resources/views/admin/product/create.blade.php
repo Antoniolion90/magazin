@@ -42,9 +42,6 @@
                                     <input type="file" class="custom-file-input" name="image" id="image">
                                     <label class="custom-file-label">Выберите изображение</label>
                                 </div>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">Загрузить</span>
-                                </div>
                             </div>
                             @error('image')
                             <p class="text-danger">{{ $message }}</p>

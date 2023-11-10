@@ -33,7 +33,10 @@
             </div>
         </div>
         <div class="amount-total">
-            Итого: {{ sum }} руб., Count: {{ counts }} шт.
+            Итого: {{ sum }} руб., Кол-во: {{ counts }} шт.
+        </div>
+        <div>
+            <button id="order-tg" class="button-cart">Оформить заказ</button>
         </div>
     </div>
 </div>
@@ -47,6 +50,15 @@ export default {
         $(document).trigger('change')
         this.getCartProducts()
 
+        let tg = window.Telegram.WebApp;
+        let order = document.getElementById("order-tg");
+        tg.expand();
+
+        order.addEventListener("click", () =>{
+
+            tg.sendData(this.products);
+            tg.close();
+        });
     },
 
     data() {
@@ -140,7 +152,6 @@ export default {
     height: 60px;
     border-bottom: 1px solid #E1E8EE;
     padding: 20px 30px;
-    color: #5E6977;
     font-size: 18px;
     font-weight: 400;
 }
@@ -153,10 +164,8 @@ export default {
     height: 120px;
     border-bottom: 1px solid #E1E8EE;
     padding: 20px 30px;
-    color: #5E6977;
     font-size: 18px;
     font-weight: 400;
-    background: #FFFFFF;
 }
 
 .item:nth-child(3) {
@@ -168,7 +177,6 @@ export default {
     height: 60px;
     border-bottom: 1px solid #E1E8EE;
     padding: 20px 30px;
-    color: #5E6977;
     font-size: 18px;
     font-weight: 400;
     text-align: right;
@@ -195,7 +203,6 @@ export default {
 .description span {
     display: block;
     font-size: 14px;
-    color: #43484D;
     font-weight: 400;
 }
 
@@ -205,7 +212,6 @@ export default {
 .description span:last-child {
     font-weight: 300;
     margin-top: 8px;
-    color: #86939E;
 }
 
 .qtySelector{
@@ -222,8 +228,9 @@ export default {
     text-align: center;
     cursor: pointer;
     user-select: none;
-    background: #fff;
     border-radius: 1vh;
+    color: var(--tg-theme-button-text-color);
+    background: var(--tg-theme-button-color);
     box-shadow: 0 5vh 10vh rgba(0,0,0,0.2);
 }
 .qtySelector span.qtyValue{
@@ -236,8 +243,7 @@ export default {
 .total-price {
     padding-top: 27px;
     text-align: center;
-    font-size: 16px;
-    color: #43484D;
+    font-size: 16px;;
     font-weight: 300;
 }
 </style>

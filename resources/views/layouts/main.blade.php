@@ -9,10 +9,35 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.css') }}">
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
+        body {
+            color: var(--tg-theme-text-color);
+            background: var(--tg-theme-bg-color);
+        }
+
+        .button-cart {
+            border: 0;
+            border-radius: 5px;
+            height: 60px;
+            width: 150px;
+            cursor: pointer;
+            transition: all 500ms ease;
+            color: var(--tg-theme-button-text-color);
+            background: var(--tg-theme-button-color);
+        }
+
+        #map {
+            width: 50%; height: 50%;
+        }
+        #viewContainer {
+            margin: 8px;
+        }
+
+        .button-cart:hover {
+            background: var(--tg-theme-secondary-bg-color);
+        }
+
         @media (min-width: 768px) {
 
             .nav-scroller .nav {
@@ -30,18 +55,17 @@
                 display: block !important;
             }
         }
-
     </style>
 
 </head>
 <body>
-<header data-bs-theme="dark">
+<header>
     <div class="collapse text-bg-dark" id="navbarHeader">
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 col-md-7 py-4">
                     <h4>О нас</h4>
-                    <p class="text-body-secondary">Добавьте информацию ниже, об авторе или любом другом фоновом
+                    <p>Добавьте информацию ниже, об авторе или любом другом фоновом
                         контексте. Составьте несколько предложений, чтобы люди могли почерпнуть полезные сведения. Затем
                         свяжите их с сайтами социальных сетей или с контактной информацией.</p>
                 </div>
@@ -78,4 +102,7 @@
 @yield('content')
 
 </body>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=77f63228-d2a0-4dc7-80e8-845fd5b6b6af" type="text/javascript"></script>
 </html>

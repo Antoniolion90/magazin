@@ -130,7 +130,6 @@ export default {
 .title {
     height: 60px;
     padding: 20px 30px;
-    color: #000;
     font-size: 18px;
     font-weight: bold;
 }
@@ -196,14 +195,12 @@ export default {
 .description {
     height: 60px;
     padding: 20px 30px 10px 20px;
-    color: #000;
     font-size: 18px;
 }
 
 .description span {
     display: block;
     font-size: 14px;
-    color: #000;
     font-weight: bold;
 }
 
@@ -222,8 +219,9 @@ export default {
     text-align: center;
     cursor: pointer;
     user-select: none;
-    background: #fff;
     border-radius: 1vh;
+    color: var(--tg-theme-button-text-color);
+    background: var(--tg-theme-button-color);
     box-shadow: 0 5vh 10vh rgba(0, 0, 0, 0.2);
 }
 

@@ -71,5 +71,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 
 
 Route::get('/', \App\Http\Controllers\HomeController::class)->name('main.index');
 Route::get('/products/{products}', \App\Http\Controllers\ShowController::class)->name('show.index');
+Route::get('/cart', \App\Http\Controllers\CartController::class)->name('cart.index');
 
 Auth::routes();

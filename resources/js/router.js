@@ -16,6 +16,11 @@ const routeInfo = [
         path : "/cart",
         component : () => import ('./components/product/Cart.vue'),
         name: 'cart.index'
+    },
+    {
+        path : "/address",
+        component : () => import ('./components/product/Address.vue'),
+        name: 'address.index'
     }
 ]
 
