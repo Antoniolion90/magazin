@@ -103,7 +103,7 @@
 @yield('content')
 
 </body>
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=77f63228-d2a0-4dc7-80e8-845fd5b6b6af" type="text/javascript"></script>
 </html>

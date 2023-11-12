@@ -40,7 +40,7 @@
                     Итого: {{ sum }} руб., Кол-во: {{ counts }} шт.
                 </div>
                 <div>
-                    <button id="order-tg" class="button-cart">Оформить заказ</button>
+                    <button id="order-tg" @click.prevent="SendTgBot" class="button-cart">Оформить заказ</button>
                 </div>
             </div>
             <div v-else class="amount-total">
@@ -55,37 +55,20 @@
 export default {
     name: "Cart",
 
+    data() {
+        return {
+            products: [],
+            tg: null
+        }
+    },
+
     mounted() {
         $(document).trigger('change')
         this.getCartProducts()
         this.getCartAddress()
 
-        let tg = window.Telegram.WebApp;
-        let order = document.getElementById("order-tg");
-        tg.expand();
-
-        let produ = localStorage.getItem('cart');
-        produ = JSON.parse(produ);
-        produ.forEach(product => {
-                product.image_url = null
-        });
-
-        let zakaztg = [];
-        zakaztg.push(produ);
-        zakaztg.push(this.address);
-
-        if (order) {
-            order.addEventListener("click", () => {
-                tg.sendData(zakaztg);
-                tg.close();
-            });
-        }
-    },
-
-    data() {
-        return {
-            products: [],
-        }
+        this.tg = window.Telegram.WebApp;
+        this.tg.expand();
     },
 
     computed: {
@@ -158,6 +141,21 @@ export default {
                 return product.id !== id
             })
             this.updateCart()
+        },
+
+        SendTgBot() {
+            let produ = localStorage.getItem('cart');
+            produ = JSON.parse(produ);
+            produ.forEach(product => {
+                product.image_url = null
+            });
+
+            let zakaztg = [];
+            zakaztg.push(produ);
+            zakaztg.push(this.address);
+
+            this.tg.sendData(JSON.stringify(zakaztg));
+            this.tg.close();
         },
 
         updateCart() {
