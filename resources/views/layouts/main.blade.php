@@ -17,7 +17,8 @@
         }
 
         .button-cart {
-            border: 0;
+            justify-content: center;
+            border: 1px;
             border-radius: 5px;
             height: 60px;
             width: 150px;

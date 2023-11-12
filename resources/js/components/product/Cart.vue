@@ -32,11 +32,18 @@
                 <p class="danger">x</p>
             </div>
         </div>
+        <div v-if="address">
         <div class="amount-total">
+            Доставка: {{ address[0].price }} руб.<br/>
             Итого: {{ sum }} руб., Кол-во: {{ counts }} шт.
         </div>
         <div>
             <button id="order-tg" class="button-cart">Оформить заказ</button>
+        </div>
+        </div>
+        <div v-else class="amount-total">
+            Не выбрана доставка<br/>
+            <router-link :to="{ name: 'address.index' }" class="m-2">Доставка</router-link>
         </div>
     </div>
 </div>
@@ -49,13 +56,13 @@ export default {
     mounted() {
         $(document).trigger('change')
         this.getCartProducts()
+        this.getCartAddress()
 
         let tg = window.Telegram.WebApp;
         let order = document.getElementById("order-tg");
         tg.expand();
 
         order.addEventListener("click", () =>{
-
             tg.sendData(this.products);
             tg.close();
         });
@@ -71,7 +78,7 @@ export default {
         sum() {
             let result = 0;
             this.products.forEach(product=> result += product.price*product.qty);
-            return result;
+            return (result + this.address[0].price);
         },
         counts(){
             let result = 0;
@@ -111,13 +118,17 @@ export default {
             }
         },
 
+        getCartAddress() {
+            this.address = JSON.parse(localStorage.getItem('address'))
+        },
+
         getCartProducts() {
             this.products = JSON.parse(localStorage.getItem('cart'))
             $(document).trigger('changed')
         },
 
         minusQty(product) {
-            if ( product.qty <= 1) return
+            if (product.qty < 2) return this.removeProduct(product.id)
             product.qty--
             this.updateCart()
         },
@@ -174,9 +185,9 @@ export default {
 }
 
 .amount-total {
-    height: 60px;
+    height: 90px;
     border-bottom: 1px solid #E1E8EE;
-    padding: 20px 30px;
+    padding: 15px 30px;
     font-size: 18px;
     font-weight: 400;
     text-align: right;
