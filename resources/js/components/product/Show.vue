@@ -38,6 +38,7 @@ export default {
     data() {
         return {
             product: null,
+            address: null,
             carts: [],
             cart: []
         }

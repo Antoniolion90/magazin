@@ -1,12 +1,12 @@
 <template>
     <div>
         <div id="map" style="width: 100%; height: 400px"></div>
-        <div v-for="addr in address" class="shopping-cart" id="viewContainer">
-            <div class="tt"><p>Расстояние: {{ addr.lengths }}</p></div>
-            <div class="tt"><p>Адрес: {{ addr.address }}</p></div>
-            <div class="tt"><p>Стоимость доставки: {{ addr.price }} руб.</p></div>
+        <div v-if="address" class="shopping-cart" id="viewContainer">
+            <div class="tt"><p>Расстояние: {{ address[0].lengths }}</p></div>
+            <div class="tt"><p>Адрес: {{ address[0].address }}</p></div>
+            <div class="tt"><p>Стоимость доставки: {{ address[0].price }} руб.</p></div>
         </div>
-
+        <div v-else class="shopping-cart" id="viewContainer"></div>
         <div>
             <router-link :to="{ name: 'cart.index' }">
                 <button class="button-cart">Перейти в корзину</button>
@@ -21,7 +21,7 @@ export default {
 
     data() {
         return {
-            address: []
+            address: null
         }
     },
 
@@ -37,8 +37,8 @@ export default {
                 // Минимальная стоимость.
                 MINIMUM_COST = 150,
                 myMap = new ymaps.Map('map', {
-                    center: [44.21, 43.12],
-                    zoom: 11,
+                    center: [44.2167, 43.1333],
+                    zoom: 13,
                     controls: []
                 }),
                 // Создадим панель маршрутизации.
@@ -70,7 +70,7 @@ export default {
             // Если вы хотите задать неизменяемую точку "откуда", раскомментируйте код ниже.
             routePanelControl.routePanel.state.set({
                 fromEnabled: false,
-                from: 'Аэропорт Минеральные Воды имени М. Ю. Лермонтова'
+                from: 'Речная улица, 6, Минеральные Воды'
             });
 
             myMap.controls.add(routePanelControl).add(zoomControl);
