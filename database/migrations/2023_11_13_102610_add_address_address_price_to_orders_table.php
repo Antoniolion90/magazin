@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->string('address')->nullable();
             $table->unsignedInteger('address_price')->nullable();
+            $table->string('payment_number')->nullable();
         });
     }
 
