@@ -154,7 +154,7 @@ export default {
             zakaztg.push(produ);
             zakaztg.push(this.address);
 
-            this.tg.sendData(JSON.stringify(zakaztg));
+            this.tg.sendData(zakaztg);
             this.tg.close();
         },
 

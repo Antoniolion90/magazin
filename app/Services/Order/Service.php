@@ -13,7 +13,6 @@ class Service
     {
         try{
             DB::beginTransaction();
-            $data['image'] = Storage::disk('public')->put('/images', $data['image']);
             Order::firstOrCreate($data);
             DB::commit();
         } catch (Exception $exception){
@@ -28,9 +27,6 @@ class Service
     {
         try{
             DB::beginTransaction();
-            if (isset($data['image'])) {
-                $data['image'] = Storage::disk('public')->put('/images', $data['image']);
-            }
             $order->update($data);
             DB::commit();
         } catch (Exception $exception){

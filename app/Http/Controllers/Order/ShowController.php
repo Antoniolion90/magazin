@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\Http\Controllers\Controller;
-
-use App\Http\Resources\Order\OrderResource;
 use App\Models\Order;
 
 
-class ShowController extends Controller
+class ShowController extends BaseController
 {
-    public function __invoke(Order $rder)
+    public function __invoke(Order $order)
     {
-        return new OrderResource($order);
+        return view('order.show', compact('order'));
     }
 }
