@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->string('address')->nullable();
             $table->unsignedInteger('address_price')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('payment_number')->nullable();
         });
     }
@@ -26,6 +27,8 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->dropColumn('address');
             $table->dropColumn('address_price');
+            $table->dropColumn('phone_number');
+            $table->dropColumn('payment_number');
         });
     }
 };

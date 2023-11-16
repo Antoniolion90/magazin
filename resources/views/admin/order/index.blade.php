@@ -11,7 +11,38 @@
                     </div><!-- /.col -->
                 </div><!-- /.row -->
 
-
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Клиент</th>
+                                        <th>Описание товара</th>
+                                        <th>Стоимость заказа</th>
+                                        <th>Стоимость доставки</th>
+                                        <th>Статус</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($orders as $order)
+                                        <tr>
+                                            <td>{{ $order->id }}</td>
+                                            <td>{{ $order->user_name }}</td>
+                                            <td class="text-wrap">{{ $order->products }}</td>
+                                            <td>{{ $order->price }} руб.</td>
+                                            <td>{{ $order->address_price }} руб.</td>
+                                            <td>{{ $order->payment_status }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div><!-- /.container-fluid -->
         </div>
