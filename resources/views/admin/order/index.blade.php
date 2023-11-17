@@ -31,10 +31,16 @@
                                         <tr>
                                             <td>{{ $order->id }}</td>
                                             <td>{{ $order->user_name }}</td>
-                                            <td class="text-wrap">{{ $order->products }}</td>
+                                            <td class="text-wrap">
+                                                @foreach (json_decode($order->products, true) as $prod)
+                                                    @foreach ($prod as $zakaz)
+                                                        {{ $zakaz['title'] }} - {{ $zakaz['qty'] }} штук, по {{ $zakaz['price'] }} руб.<br/>
+                                                    @endforeach
+                                                @endforeach
+                                            </td>
                                             <td>{{ $order->price }} руб.</td>
                                             <td>{{ $order->address_price }} руб.</td>
-                                            <td>{{ $order->payment_status }}</td>
+                                            <td>{{ $order->statusTitle }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
