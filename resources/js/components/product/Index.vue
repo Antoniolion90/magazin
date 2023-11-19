@@ -15,20 +15,28 @@
                             <div class="price">{{ product.price }} руб.</div>
 
                             <div>
-                                <div v-for="cart in cartFilter(product.id)" :key="product.id" class="qtyCart">
-                                    <span @click.prevent="minusQty(cart)" class="minus">-</span>
-                                    <span class="num">{{ cart.qty }}</span>
-                                    <span @click.prevent="plusQty(cart)" class="plus">+</span>
-                                </div>
                                 <div v-if="!(noCarts(product.id))" class="product">
                                     <a class="add-to-cart" @click.prevent="addToCart(product)" href="#">
                                         <i class="fas fa-shopping-cart"></i><span>Купить</span>
                                     </a>
                                 </div>
-
+                                <div v-else class="product">
+                                    <div v-for="cart in cartFilter(product.id)" :key="product.id" class="qtyCart">
+                                        <span @click.prevent="minusQty(cart)" class="minus">-</span>
+                                        <span class="num">{{ cart.qty }}</span>
+                                        <span @click.prevent="plusQty(cart)" class="plus">+</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div v-if="carts">
+                <div v-if="carts.length">
+                    <router-link :to="{ name: 'cart.index' }">
+                        <button class="button-cart">Перейти в корзину</button>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -90,6 +98,7 @@ export default {
 
                 localStorage.setItem('cart', JSON.stringify(cart))
             }
+            this.getCartProducts();
         },
         getCartProducts() {
             this.carts = JSON.parse(localStorage.getItem('cart'))
@@ -140,6 +149,7 @@ export default {
 
 <style scoped>
 .product-grid {
+    padding-top: 10px;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
 }

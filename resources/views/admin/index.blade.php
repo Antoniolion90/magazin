@@ -31,7 +31,7 @@
                                 <p>Заказы</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-bag"></i>
+                                <i class="fas fa-shopping-bag"></i>
                             </div>
                             <a href="{{ route('admin.order.index') }}" class="small-box-footer">Подробнее <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
@@ -56,14 +56,14 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>{{ $data['usersCount'] }}</h3>
+                                <h3>{{ $data['clientsCount'] }}</h3>
 
-                                <p>Пользователи</p>
+                                <p>Клиенты</p>
                             </div>
                             <div class="icon">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <a href="{{ route('admin.user.index') }}" class="small-box-footer">Подробнее <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('admin.client.index') }}" class="small-box-footer">Подробнее <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <!-- ./col -->
@@ -76,7 +76,7 @@
                                 <p>Продукты</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
+                                <i class="fas fa-pizza-slice"></i>
                             </div>
                             <a href="{{ route('admin.product.index') }}" class="small-box-footer">Подробнее <i class="fas fa-arrow-circle-right"></i></a>
                         </div>

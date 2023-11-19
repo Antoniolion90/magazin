@@ -7,7 +7,7 @@
 
                 <div class="row mb-2">
                     <div class="col-12">
-                        <h1 class="m-0">Добавление пользователя</h1>
+                        <h1 class="m-0">Добавление менеджера</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
 
@@ -15,7 +15,7 @@
                     @csrf
                     <div class="row mb-2">
                         <div class="col-6">
-                            <label for="name" class="form-label">Имя пользователя</label>
+                            <label for="name" class="form-label">Имя менеджера</label>
                             <input value="{{ old('name') }}" type="text" class="form-control" name="name" id="name" placeholder="Введите имя пользователя" required="">
                             @error('name')
                             <p class="text-danger">{{ $message }}</p>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-6">
-                            <label for="email" class="form-label">Почта пользователя</label>
+                            <label for="email" class="form-label">Почта менеджера</label>
                             <input value="{{ old('email') }}" type="text" class="form-control" name="email" id="email" placeholder="Введите почту пользователя" required="">
                             @error('email')
                             <p class="text-danger">{{ $message }}</p>

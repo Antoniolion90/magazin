@@ -7,13 +7,13 @@
 
                 <div class="row mb-2">
                     <div class="col-12">
-                        <h1 class="m-0">Пользователи</h1>
+                        <h1 class="m-0">Менеджеры</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
                 <div class="row">
                     <div class="col-12">
                         <a href="{{ route('admin.user.create') }}" class="btn btn-primary mb-3">Создать
-                            пользователя</a>
+                            менеджера</a>
                     </div>
                 </div>
                 <div class="row">

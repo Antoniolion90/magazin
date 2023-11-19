@@ -26,6 +26,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('admin.client.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>Клиенты</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('admin.product.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-pizza-slice"></i>
                         <p>Продукты</p>
@@ -45,8 +51,8 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.user.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>Пользователи</p>
+                        <i class="nav-icon fas fa-briefcase"></i>
+                        <p>Менеджеры</p>
                     </a>
                 </li>
 

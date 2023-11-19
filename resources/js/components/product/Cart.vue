@@ -1,5 +1,6 @@
 <template>
     <div>
+        <router-link :to="{ name: 'address.index' }" class="m-2">Сменить адрес доставка</router-link>
         <div class="shopping-cart">
             <!-- Title -->
             <div class="title">
@@ -8,39 +9,62 @@
 
             <!-- Товар #1 -->
             <div v-for="product in products" class="item row">
-                <div class="product-image col-auto">
-                    <router-link :to="{name: 'products.show', params: { id: product.id }}">
-                        <img :src="product.image_url" class="pic-1">
-                    </router-link>
-                </div>
-
-                <div class="description col-4">
-                    <router-link :to="{name: 'products.show', params: { id: product.id }}">
-                        <span>{{ product.title }}</span>
-                    </router-link>
-                </div>
-                <div class="col-4">
-                    <div class="qtySelector">
-                        <span @click.prevent="minusQty(product)" class="minus">-</span>
-                        <span class="qtyValue">{{ product.qty }}</span>
-                        <span @click.prevent="plusQty(product)" class="plus">+</span>
-                    </div>
-
-                    <div class="total-price">{{ product.price }} руб. * {{ product.qty }} =
-                        {{ product.price * product.qty }} руб.
-                    </div>
-                </div>
-                <div @click.prevent="removeProduct(product.id)" class="remove col-auto">
-                    <p class="danger">x</p>
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 10%" rowspan="2">
+                            <div @click.prevent="removeProduct(product.id)" class="remove col-auto">
+                                <p class="danger">x</p>
+                            </div>
+                        </td>
+                        <td class="product-image" rowspan="2">
+                            <router-link :to="{name: 'products.show', params: { id: product.id }}">
+                                <img :src="product.image_url" class="pic-1">
+                            </router-link>
+                        </td>
+                        <td style="width: 70%">
+                            <div class="qtySelector">
+                                <span @click.prevent="minusQty(product)" class="minus">-</span>
+                                <span class="qtyValue">{{ product.qty }}</span>
+                                <span @click.prevent="plusQty(product)" class="plus">+</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="total-price">{{ product.price }} р. * {{ product.qty }} =
+                                {{ product.price * product.qty }} р.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <router-link :to="{name: 'products.show', params: { id: product.id }}">
+                                <span>{{ product.title }}</span>
+                            </router-link>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div v-if="!products" class="item row">
+                    Не выбран товар
+            </div>
+            <div v-else>
+                <div v-if="!products.length" class="item row">
+                    Не выбран товар
                 </div>
             </div>
+
             <div v-if="address">
                 <div class="amount-total">
-                    Доставка: {{ address[0].price }} руб.<br/>
+                    Адрес доставки: {{ address[0].address }}<br/>
+                    Стоимость доставки: {{ address[0].price }} руб.<br/>
                     Итого: {{ sum }} руб., Кол-во: {{ counts }} шт.
                 </div>
-                <div>
-                    <button id="order-tg" @click.prevent="SendTgBot" class="button-cart">Оформить заказ</button>
+                <div v-if="products">
+                    <div v-if="products.length">
+                        <button id="order-tg" @click.prevent="SendTgBot" class="button-cart">Оформить заказ
+                        </button>
+                    </div>
                 </div>
             </div>
             <div v-else class="amount-total">
@@ -74,14 +98,19 @@ export default {
     computed: {
         sum() {
             let result = 0;
-            this.products.forEach(product => result += product.price * product.qty);
+            if (this.products) {
+                this.products.forEach(product => result += product.price * product.qty);
+            }
             return (result + this.address[0].price);
         },
         counts() {
             let result = 0;
-            this.products.forEach(product => result += product.qty);
+            if (this.products) {
+                this.products.forEach(product => result += product.qty);
+            }
             return result;
         }
+
     },
 
     methods: {
@@ -113,35 +142,41 @@ export default {
 
                 localStorage.setItem('cart', JSON.stringify(cart))
             }
-        },
+        }
+        ,
 
         getCartAddress() {
             this.address = JSON.parse(localStorage.getItem('address'))
-        },
+        }
+        ,
 
         getCartProducts() {
             this.products = JSON.parse(localStorage.getItem('cart'))
             $(document).trigger('changed')
-        },
+        }
+        ,
 
         minusQty(product) {
             if (product.qty < 2) return this.removeProduct(product.id)
             product.qty--
             this.updateCart()
-        },
+        }
+        ,
 
         plusQty(product) {
             if (product.qty >= 10) return
             product.qty++
             this.updateCart()
-        },
+        }
+        ,
 
         removeProduct(id) {
             this.products = this.products.filter(product => {
                 return product.id !== id
             })
             this.updateCart()
-        },
+        }
+        ,
 
         SendTgBot() {
             let produ = localStorage.getItem('cart');
@@ -156,7 +191,8 @@ export default {
 
             this.tg.sendData(zakaztg);
             this.tg.close();
-        },
+        }
+        ,
 
         updateCart() {
             localStorage.setItem('cart', JSON.stringify(this.products))
@@ -176,7 +212,7 @@ export default {
     height: 60px;
     border-bottom: 1px solid #E1E8EE;
     padding: 20px 30px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
 }
 
@@ -187,10 +223,10 @@ export default {
 
 .item {
     display: flex;
-    height: 120px;
+    height: 130px;
     border-bottom: 1px solid #E1E8EE;
-    padding: 20px 30px;
-    font-size: 18px;
+    padding: 15px 25px;
+    font-size: 15px;
     font-weight: 400;
 }
 
@@ -203,7 +239,7 @@ export default {
     height: 90px;
     border-bottom: 1px solid #E1E8EE;
     padding: 15px 30px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     text-align: right;
 }
@@ -251,7 +287,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2vh;
+    font-size: 1.5vh;
     font-weight: bold;
 
 }
@@ -262,21 +298,20 @@ export default {
     text-align: center;
     cursor: pointer;
     user-select: none;
-    border-radius: 1vh;
+    border-radius: 0.75vh;
     color: var(--tg-theme-button-text-color);
     background: var(--tg-theme-button-color);
     box-shadow: 0 5vh 10vh rgba(0, 0, 0, 0.2);
 }
 
 .qtySelector span.qtyValue {
-    font-size: 2vh;
+    font-size: 1.5vh;
     border-right: 2px solid rgba(0, 0, 0, 0.2);
     border-left: 2px solid rgba(0, 0, 0, 0.2);
     pointer-events: none;
 }
 
 .total-price {
-    padding-top: 27px;
     text-align: center;
     font-size: 16px;;
     font-weight: 300;

@@ -17,13 +17,12 @@
         }
 
         .button-cart {
-            justify-content: center;
-            border: 1px;
-            border-radius: 5px;
-            height: 60px;
-            width: 150px;
-            cursor: pointer;
-            transition: all 500ms ease;
+            position: fixed;
+            bottom: 0;
+            padding: 15px;
+            margin-left: -1.5vh;
+            border: none;
+            width: 100%;
             color: var(--tg-theme-button-text-color);
             background: var(--tg-theme-button-color);
         }
@@ -92,6 +91,9 @@
                 </svg>
                 <strong>Заказы</strong>
             </a>
+            <button class="navbar-toggler">
+                <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
+            </button>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
                     aria-controls="navbarHeader" aria-expanded="false" aria-label="Переключить навигацию">
                 <span class="navbar-toggler-icon"></span>

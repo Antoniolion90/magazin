@@ -92,6 +92,7 @@ export default {
 
                 localStorage.setItem('cart', JSON.stringify(cart))
             }
+            this.getCartProducts();
         },
 
         getCartProducts() {
@@ -194,7 +195,6 @@ export default {
 }
 
 .description {
-    height: 60px;
     padding: 20px 30px 10px 20px;
     font-size: 18px;
 }

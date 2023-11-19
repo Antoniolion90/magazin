@@ -27,6 +27,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin', 
         Route::delete('/{order}', 'DeleteController')->name('admin.order.delete');
     });
 
+    Route::group(['namespace' => 'Client', 'prefix' => 'clients'], function (){
+        Route::get('/', 'IndexController')->name('admin.client.index');
+    });
+
     Route::group(['namespace' => 'Product', 'prefix' => 'products'], function (){
         Route::get('/', 'IndexController')->name('admin.product.index');
         Route::get('/create', 'CreateController')->name('admin.product.create');

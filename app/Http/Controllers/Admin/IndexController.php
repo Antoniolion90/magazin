@@ -8,7 +8,7 @@ use App\Http\Requests\Admin\Order\FilterRequest;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\User;
+use App\Models\Client;
 
 
 class IndexController extends Controller
@@ -17,7 +17,7 @@ class IndexController extends Controller
     {
         $data = [];
 
-        $data['usersCount'] = User::all()->count();
+        $data['clientsCount'] = Client::all()->count();
         $data['categoriesCount'] = Category::all()->count();
         $data['ordersCount'] = Order::all()->count();
         $data['productsCount'] = Product::all()->count();

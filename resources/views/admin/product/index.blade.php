@@ -28,6 +28,7 @@
                                         <th>Описание товара</th>
                                         <th>Стоимость</th>
                                         <th>Количество</th>
+                                        <th>Видимость</th>
                                         <th colspan="3">Действия</th>
                                     </tr>
                                     </thead>
@@ -35,10 +36,11 @@
                                     @foreach ($products as $product)
                                         <tr>
                                             <td>{{ $product->id }}</td>
-                                            <td>{{ $product->title }}</td>
+                                            <td class="text-wrap">{{ $product->title }}</td>
                                             <td class="text-wrap">{{ $product->description }}</td>
                                             <td>{{ $product->price }}</td>
                                             <td>{{ $product->quantity }}</td>
+                                            <td>{{ $product->is_show }}</td>
                                             <td><a href="{{ route('admin.product.show', $product->id) }}"><i
                                                         class="nav-icon fas fa-eye"></i></a></td>
                                             <td><a href="{{ route('admin.product.edit', $product->id) }}"
