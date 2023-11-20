@@ -1,5 +1,26 @@
 @extends('layouts.admin')
 @section('content')
+    <style>
+        .status_1{
+            background: gray;
+            color: white;
+            text-align: center;
+        }
+        .status_2{
+            background: green;
+            color: white;
+            text-align: center;
+        }
+        .status_3{
+            background: yellow;
+            text-align: center;
+        }
+        .status_4{
+            background: blue;
+            color: white;
+            text-align: center;
+        }
+    </style>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
@@ -40,7 +61,7 @@
                                             </td>
                                             <td>{{ $order->price }} руб.</td>
                                             <td>{{ $order->address_price }} руб.</td>
-                                            <td>{{ $order->statusTitle }}</td>
+                                            <td><div class="status_{{ $order->payment_status }}">{{ $order->statusTitle }}</div></td>
                                         </tr>
                                     @endforeach
                                     </tbody>

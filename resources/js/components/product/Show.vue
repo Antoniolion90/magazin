@@ -130,7 +130,6 @@ export default {
 <style scoped>
 
 .title {
-    height: 60px;
     padding: 20px 30px;
     font-size: 18px;
     font-weight: bold;
